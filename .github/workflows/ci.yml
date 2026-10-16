@@ -26,6 +26,6 @@ jobs:
           xcodebuild test \
             -project Observed/Observed.xcodeproj \
             -scheme Observed \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
             -resultBundlePath TestResults.xcresult \
             CODE_SIGNING_ALLOWED=NO
