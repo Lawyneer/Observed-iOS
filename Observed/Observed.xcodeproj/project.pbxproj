@@ -6,6 +6,10 @@
 	objectVersion = 90;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		06CBB1D23082E5F900DBFCFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06CBB1C73082E5F900DBFCFD /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		06608A6E3082AA2D006B6E17 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -19,6 +23,7 @@
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* Observed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Observed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06608A6A3082AA2D006B6E17 /* ObservedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ObservedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		06CBB1C73082E5F900DBFCFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -51,6 +56,7 @@
 		000000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
+				06CBB1C73082E5F900DBFCFD /* Assets.xcassets */,
 				000000000000000000000010 /* Observed */,
 				06608A6B3082AA2D006B6E17 /* ObservedTests */,
 				000000000000000000000020 /* Products */,
@@ -151,6 +157,7 @@
 		000000000000000140000000 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				06CBB1D23082E5F900DBFCFD /* Assets.xcassets in Resources */,
 			);
 		};
 		06608A683082AA2D006B6E17 /* Resources */ = {
