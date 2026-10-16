@@ -29,3 +29,4 @@ jobs:
             -destination 'platform=iOS Simulator,name=iPhone 17' \
             -resultBundlePath TestResults.xcresult \
             CODE_SIGNING_ALLOWED=NO
+            IPHONEOS_DEPLOYMENT_TARGET=17.0
