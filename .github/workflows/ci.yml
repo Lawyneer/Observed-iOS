@@ -24,7 +24,7 @@ jobs:
       - name: Run tests
         run: |
           xcodebuild test \
-            -project Observed.xcodeproj \
+            -project Observed/Observed.xcodeproj \
             -scheme Observed \
             -destination 'platform=iOS Simulator,name=iPhone 16' \
             -resultBundlePath TestResults.xcresult \

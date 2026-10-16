@@ -64,7 +64,7 @@ You'll need a Mac with [Xcode 16](https://developer.apple.com/xcode/) or later
    ```
 2. Open the project:
    ```sh
-   open Observed.xcodeproj
+   open Observed/Observed.xcodeproj
    ```
 3. Select an iPhone Simulator as the run destination and press ⌘R.
 
