@@ -13,6 +13,10 @@ struct HabitListView: View {
     // Undo state for an accidentally logged occurrence.
     @State private var pendingUndoOccurrence: Occurrence?
 
+    // The habit whose history should be pushed. Setting a value
+    // slides the history screen in; setting nil pops it back.
+    @State private var selectedHabit: Habit?
+
     var body: some View {
         NavigationStack {
             Group {
@@ -25,21 +29,23 @@ struct HabitListView: View {
                 } else {
                     List {
                         ForEach(habits) { habit in
-                            HabitRow(habit: habit)
-                                .swipeActions {
-                                    Button {
-                                        logOccurrence(for: habit)
-                                    } label: {
-                                        Label("Observed", systemImage: "eye")
-                                    }
-                                    .tint(.indigo)
-                                }
+                            HabitRow(
+                                habit: habit,
+                                onLogOccurrence: { logOccurrence(for: habit) },
+                                onOpenHistory: { selectedHabit = habit }
+                            )
                         }
                         .onDelete(perform: delete)
                     }
                 }
             }
             .navigationTitle("My Habits")
+            // State-driven navigation: when selectedHabit is set,
+            // this pushes the history view for that habit. Replaces
+            // the NavigationLink that used to live in the row.
+            .navigationDestination(item: $selectedHabit) { habit in
+                OccurrenceHistoryView(habit: habit)
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -107,12 +113,11 @@ struct HabitListView: View {
         }
         try? context.save()
     }
-    
+
     private func logOccurrence(for habit: Habit) {
         let occurrence = Occurrence(observedAt: .now, habit: habit)
         context.insert(occurrence)
         try? context.save()
         pendingUndoOccurrence = occurrence
     }
-    
 }
