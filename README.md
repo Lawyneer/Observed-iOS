@@ -78,6 +78,19 @@ ordering, relationship integrity, cascade deletion) and end-to-end persistence
 through in-memory SwiftData stores. Run it locally with ⌘U in Xcode, or let CI
 run it on every push and pull request.
 
+## Documentation
+
+- [README](README.md) — this file: overview, features, build instructions
+- [Architecture](ARCHITECTURE.md) — how the code is structured and why
+- [Contributing](CONTRIBUTING.md) — guidelines for issues and pull requests
+- [Changelog](CHANGELOG.md) — release history
+- [Privacy policy](PRIVACY.md) — data practices (spoiler: there are none)
+- [Security policy](SECURITY.md) — how to report vulnerabilities
+
+The README is the front door; start there. Architecture explains the
+reactive loop the whole app runs on and how to extend it without
+adding layers; it's the document to read before opening a PR.
+
 ## Privacy
 
 Observed collects nothing. All data is stored locally on your device using
