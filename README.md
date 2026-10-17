@@ -33,6 +33,18 @@ is the entire setup. Observing it is the entire point.
 - **On-device storage only** — no network access, no analytics, no tracking.
 - **Dark mode** support throughout.
 
+## Screenshots
+
+| | |
+|:---:|:---:|
+| ![Empty state — no habits yet](screenshots/start_screen.png) | ![Adding a habit](screenshots/add_habit.png) |
+| ![Main habit list](screenshots/home_screen.png) | ![Occurrence history](screenshots/history.png) |
+| | ![Back-dating an occurrence](screenshots/back-dating.png) |
+
+Left to right, top to bottom: the empty state on first launch, adding
+a habit by name, the main list with last-observed times, a habit's
+full occurrence history, and back-dating a forgotten entry.
+
 ## Non-goals
 
 By design, Observed will likely never have:
