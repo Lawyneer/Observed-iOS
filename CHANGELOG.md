@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- **Sorting** Added sorting by date created, last occurrence date, or alphabetically.
+
 ### Changed
 
 - **Renamed the project from MedTracker to Observed.** The app is no longer a
