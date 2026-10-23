@@ -1,11 +1,32 @@
 import SwiftUI
 import SwiftData
 
+/// The ways the habit list can be ordered.
+enum HabitSort: String, CaseIterable, Identifiable {
+    case newest
+    case alphabetical
+    case lastRecorded
+
+    var id: String { rawValue }
+
+    var label: LocalizedStringKey {
+        switch self {
+        case .newest: "Newest First"
+        case .alphabetical: "Alphabetical"
+        case .lastRecorded: "Last Recorded"
+        }
+    }
+}
+
 struct HabitListView: View {
     @Environment(\.modelContext) private var context
 
-    @Query(sort: \Habit.createdAt, order: .reverse)
-    private var habits: [Habit]
+    // Sorting happens in `sortedHabits`, not in the query, because
+    // @Query sort descriptors can only target persisted properties —
+    // "date of last occurrence" is derived from a relationship.
+    @Query private var habits: [Habit]
+
+    @AppStorage("habitSort") private var sortOrder: HabitSort = .newest
 
     @State private var isAddingHabit = false
     @State private var newName = ""
@@ -28,7 +49,7 @@ struct HabitListView: View {
                     )
                 } else {
                     List {
-                        ForEach(habits) { habit in
+                        ForEach(sortedHabits) { habit in
                             HabitRow(
                                 habit: habit,
                                 onLogOccurrence: { logOccurrence(for: habit) },
@@ -47,6 +68,17 @@ struct HabitListView: View {
                 OccurrenceHistoryView(habit: habit)
             }
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Menu {
+                        Picker("Sort By", selection: $sortOrder) {
+                            ForEach(HabitSort.allCases) { sort in
+                                Text(sort.label).tag(sort)
+                            }
+                        }
+                    } label: {
+                        Label("Sort", systemImage: "arrow.up.arrow.down")
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         newName = ""
@@ -74,8 +106,33 @@ struct HabitListView: View {
                 }
             }
             .animation(.easeInOut(duration: 0.25), value: pendingUndoOccurrence)
+            .animation(.default, value: sortOrder)
         }
     }
+
+    // MARK: - Sorting
+
+    /// The habits in the currently selected order.
+    /// The view reads this (NOT `habits`) so rows and swipe-to-delete
+    /// stay consistent; `delete(at:)` must index into the same array.
+    private var sortedHabits: [Habit] {
+        switch sortOrder {
+        case .newest:
+            habits.sorted { $0.createdAt > $1.createdAt }
+        case .alphabetical:
+            habits.sorted {
+                $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+            }
+        case .lastRecorded:
+            // Habits never recorded sink to the bottom.
+            habits.sorted {
+                ($0.lastOccurrence?.observedAt ?? .distantPast)
+                    > ($1.lastOccurrence?.observedAt ?? .distantPast)
+            }
+        }
+    }
+
+    // MARK: - Subviews
 
     private func undoToast(for occurrence: Occurrence) -> some View {
         HStack {
@@ -100,6 +157,8 @@ struct HabitListView: View {
         }
     }
 
+    // MARK: - Actions
+
     private func addHabit() {
         let trimmed = newName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
@@ -109,7 +168,7 @@ struct HabitListView: View {
 
     private func delete(at offsets: IndexSet) {
         for index in offsets {
-            context.delete(habits[index])   // history deleted with it
+            context.delete(sortedHabits[index])   // history deleted with it
         }
         try? context.save()
     }
